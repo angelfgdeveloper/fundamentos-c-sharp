@@ -18,6 +18,8 @@
 
         public TiposEscuela TipoEscuela { get; set; }
 
+        public Curso[] Cursos { get; set; }
+
         // #1 constructor normal
         //public Escuela(string nombreEntrada, int annio)
         //{

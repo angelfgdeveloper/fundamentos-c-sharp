@@ -1,4 +1,5 @@
 ﻿using CoreEscuela.Entidades;
+using static System.Console; // Obviamos el Console
 
 namespace CoreEscuela
 {
@@ -16,47 +17,66 @@ namespace CoreEscuela
             // Parametros opcionales y seleccion de argumento por pais:"bla bla"
             Escuela escuela = new Escuela("Platzi Academy", 2012, TiposEscuela.Primaria, pais: "Colombia", ciudad: "Bogota");
 
+            // #1 Arreglos ========================================
             //Curso curso1 = new Curso()
             //{
             //    Nombre = "Curso de fundamentos C#",
             //    // UniqueId = "c" => No lo podemos utilizar ya que lo encapsulamos
             //};
-
             //Curso curso2 = new Curso()
             //{
             //    Nombre = "Curso Intermedio C#",
             //    // UniqueId = "c" => No lo podemos utilizar ya que lo encapsulamos
             //};
-
             //Curso curso3 = new Curso()
             //{
             //    Nombre = "Curso Avanzado C#",
             //    // UniqueId = "c" => No lo podemos utilizar ya que lo encapsulamos
             //};
 
-            Curso[] arregloCursos = new Curso[3];
+            // #2 Arreglos ===========================================
+            //Curso[] arregloCursos = new Curso[3];
+            //arregloCursos[0] = new Curso()
+            //{
+            //    Nombre = "Curso de fundamentos C#",
+            //};
+            //Curso curso2 = new Curso()
+            //{
+            //    Nombre = "Curso Intermedio C#",
+            //    // UniqueId = "c" => No lo podemos utilizar ya que lo encapsulamos
+            //};
+            //arregloCursos[1] = curso2;
+            //arregloCursos[2] = new Curso()
+            //{
+            //    Nombre = "Curso Avanzado C#",
+            //    // UniqueId = "c" => No lo podemos utilizar ya que lo encapsulamos
+            //};
 
-            arregloCursos[0] = new Curso()
-            {
-                Nombre = "Curso de fundamentos C#",
-            };
+            // #3 Arreglos =============================================
+            //Curso[] arregloCursos = new Curso[3]
+            //{
+            //    new Curso() { Nombre = "Curso de fundamentos C#" },
+            //    new Curso() { Nombre = "Curso Intermedio C#" },
+            //    new Curso() { Nombre = "Curso Avanzado C#" }
+            //};
 
-            Curso curso2 = new Curso()
-            {
-                Nombre = "Curso Intermedio C#",
-                // UniqueId = "c" => No lo podemos utilizar ya que lo encapsulamos
-            };
+            // #4 Arreglos =============================================
+            //Curso[] arregloCursos = {
+            //    new Curso() { Nombre = "Curso de fundamentos C#" },
+            //    new Curso() { Nombre = "Curso Intermedio C#" },
+            //    new Curso() { Nombre = "Curso Avanzado C#" }
+            //};
+            //escuela.Cursos = arregloCursos; // asignarlo al metodo
 
-            arregloCursos[1] = curso2;
-
-            arregloCursos[2] = new Curso()
-            {
-                Nombre = "Curso Avanzado C#",
-                // UniqueId = "c" => No lo podemos utilizar ya que lo encapsulamos
+            // #5 Arreglos =============================================
+            escuela.Cursos = new Curso[] {
+                new Curso() { Nombre = "Curso de fundamentos C#" },
+                new Curso() { Nombre = "Curso Intermedio C#" },
+                new Curso() { Nombre = "Curso Avanzado C#" }
             };
 
             Console.WriteLine(escuela);
-            Console.WriteLine("==================");
+            Console.WriteLine("====================");
             // cw + tab => abre el log
             //Console.WriteLine(curso1.Nombre + ", " + curso1.UniqueId);
             //Console.WriteLine($"{curso2.Nombre}, {curso2.UniqueId}");
@@ -68,16 +88,38 @@ namespace CoreEscuela
             //Console.ReadLine(); // Espera a que presione enter
             //Console.WriteLine(arregloCursos[5].Nombre); // Truena porque no existe ese elemento
 
-            ImprimirCursosWhile(arregloCursos);
+            //ImprimirCursosWhile(arregloCursos);
+            //Console.WriteLine("==================");
+            //ImprimirCursosDoWhile(arregloCursos);
+            //Console.WriteLine("==================");
+            //ImprimirCursosFor(arregloCursos);
+            //Console.WriteLine("==================");
+            //ImprimirCursosForEach(arregloCursos);
 
-            Console.WriteLine("==================");
-            ImprimirCursosDoWhile(arregloCursos);
+            // Fallas
+            //escuela.Cursos = null;
+            //escuela.Cursos = new Curso[0];
+            //escuela = null;
+            ImprimirCursosEscuela(escuela);
 
-            Console.WriteLine("==================");
-            ImprimirCursosFor(arregloCursos);
+        }
 
-            Console.WriteLine("==================");
-            ImprimirCursosForEach(arregloCursos);
+        private static void ImprimirCursosEscuela(Escuela escuela)
+        {
+            // Reducimos el Console con el usigin
+            WriteLine("====================");
+            WriteLine("Cursos de la Escuela");
+            WriteLine("====================");
+
+            // Operador logico de corto circuito
+            //if (escuela != null && escuela.Cursos != null)
+            if (escuela?.Cursos != null) // Verifica que exista la escuela y que no sea null Cursos
+            {
+                foreach (Curso curso in escuela.Cursos)
+                {
+                    WriteLine($"Nombre: {curso.Nombre}, ID: {curso.UniqueId}");
+                }
+            }
 
         }
 
