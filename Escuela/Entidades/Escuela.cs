@@ -18,7 +18,8 @@
 
         public TiposEscuela TipoEscuela { get; set; }
 
-        public Curso[] Cursos { get; set; }
+        //public Curso[] Cursos { get; set; }
+        public List<Curso> Cursos { get; set; } = new List<Curso>();
 
         // #1 constructor normal
         //public Escuela(string nombreEntrada, int annio)

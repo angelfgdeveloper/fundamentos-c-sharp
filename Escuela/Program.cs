@@ -17,6 +17,136 @@ namespace CoreEscuela
             // Parametros opcionales y seleccion de argumento por pais:"bla bla"
             Escuela escuela = new Escuela("Platzi Academy", 2012, TiposEscuela.Primaria, pais: "Colombia", ciudad: "Bogota");
 
+            // Arreglos
+            usoDeArreglos();
+
+            // #5 Arreglos =============================================
+            //escuela.Cursos = new Curso[] {
+            //    new Curso() { Nombre = "Curso de fundamentos C#" },
+            //    new Curso() { Nombre = "Curso Intermedio C#" },
+            //    new Curso() { Nombre = "Curso Avanzado C#" }
+            //};
+            
+            // Listas
+            escuela.Cursos = new List<Curso>()
+            {
+                new Curso() { Nombre = "Curso de fundamentos C#", Jornada = TiposJornada.Maniana },
+                new Curso() { Nombre = "Curso Intermedio C#", Jornada = TiposJornada.Maniana },
+                new Curso() { Nombre = "Curso Avanzado C#", Jornada = TiposJornada.Maniana }
+            };
+
+            escuela.Cursos.Add(new Curso() { Nombre = "Curso de Github & Git", Jornada = TiposJornada.Tarde });
+            escuela.Cursos.Add(new Curso() { Nombre = "Curso de GitLab Avanzado", Jornada = TiposJornada.Tarde });
+
+            List<Curso> otraColeccion = new List<Curso>()
+            {
+                new Curso() { Nombre = "Curso de fundamentos C# 2024", Jornada = TiposJornada.Maniana },
+                new Curso() { Nombre = "Curso Intermedio C# 2024", Jornada = TiposJornada.Maniana },
+                new Curso() { Nombre = "Curso Avanzado C# 2024", Jornada = TiposJornada.Tarde }
+            };
+
+            Curso cursoTmp = new Curso() { Nombre = "Introducción", Jornada = TiposJornada.Noche };
+
+            // Adicionar otra lista
+            escuela.Cursos.AddRange(otraColeccion);
+            escuela.Cursos.Add(cursoTmp);
+
+            ImprimirCursosEscuela(escuela);
+            WriteLine("Curso.Hash: " + cursoTmp.GetHashCode());
+
+            // Limpia todos los elementos
+            //otraColeccion.Clear();
+
+            // Eliminar elementos de una lista
+            escuela.Cursos.Remove(cursoTmp);
+            //escuela.Cursos.RemoveAt(); // El indice
+            //escuela.Cursos.RemoveRange(1, 2); // De un rango a otro
+
+            Predicate<Curso> miAlgoritmo = Predicado; // Debe de regresar un booleano => Protege nuestras condiciones y lo que debe regresar
+            //escuela.Cursos.RemoveAll(Predicado); // Elimina todo cuando retorne algo
+
+            escuela.Cursos.RemoveAll(miAlgoritmo); // Elimina todo cuando retorne algo
+
+            WriteLine("====================");
+            ImprimirCursosEscuela(escuela);
+
+            //Console.WriteLine(escuela);
+            Console.WriteLine("====================");
+            // cw + tab => abre el log
+            //Console.WriteLine(curso1.Nombre + ", " + curso1.UniqueId);
+            //Console.WriteLine($"{curso2.Nombre}, {curso2.UniqueId}");
+            //Console.WriteLine(curso3);
+
+            // IMPRIMIR ARREGLOS
+            //Console.WriteLine(arregloCursos[0].Nombre);
+            //Console.WriteLine("Presione ENTER para continuar");
+            //Console.ReadLine(); // Espera a que presione enter
+            //Console.WriteLine(arregloCursos[5].Nombre); // Truena porque no existe ese elemento
+
+            //ImprimirCursosWhile(arregloCursos);
+            //Console.WriteLine("==================");
+            //ImprimirCursosDoWhile(arregloCursos);
+            //Console.WriteLine("==================");
+            //ImprimirCursosFor(arregloCursos);
+            //Console.WriteLine("==================");
+            //ImprimirCursosForEach(arregloCursos);
+
+            // Fallas
+            //escuela.Cursos = null;
+            //escuela.Cursos = new Curso[0];
+            //escuela = null;
+
+            //ImprimirCursosEscuela(escuela);
+            //usoDeIf();
+
+        }
+
+        private static bool Predicado(Curso curso)
+        {
+            return curso.Nombre == "Curso Intermedio C# 2024"; // Retorn true si es igual al seleccionado
+        }
+
+        private static void usoDeIf()
+        {
+            bool rta = 10 == 10; // true
+            int cantidad = 10;
+            if (rta == false)
+            {
+                WriteLine("Se cumplio esta condición #1");
+            }
+            else if (cantidad > 15)
+            {
+                WriteLine("Se cumplio esta condición #2");
+            }
+            else
+            {
+                WriteLine("No se cumplio esta condición");
+            }
+
+            if (cantidad > 5 && rta == false)
+            {
+                WriteLine("Se cumplio esta condición #3");
+            }
+
+            if (cantidad > 5 && rta)
+            {
+                WriteLine("Se cumplio esta condición #4");
+            }
+
+            if (cantidad > 5 || !rta)
+            {
+                WriteLine("Se cumplio esta condición #5");
+            }
+
+            //cantidad = 11;
+            if ((cantidad > 5 || rta) && (cantidad % 5 == 0))
+            {
+                WriteLine("Se cumplio esta condición #6");
+            }
+        }
+
+        private static void usoDeArreglos()
+        {
             // #1 Arreglos ========================================
             //Curso curso1 = new Curso()
             //{
@@ -67,41 +197,6 @@ namespace CoreEscuela
             //    new Curso() { Nombre = "Curso Avanzado C#" }
             //};
             //escuela.Cursos = arregloCursos; // asignarlo al metodo
-
-            // #5 Arreglos =============================================
-            escuela.Cursos = new Curso[] {
-                new Curso() { Nombre = "Curso de fundamentos C#" },
-                new Curso() { Nombre = "Curso Intermedio C#" },
-                new Curso() { Nombre = "Curso Avanzado C#" }
-            };
-
-            Console.WriteLine(escuela);
-            Console.WriteLine("====================");
-            // cw + tab => abre el log
-            //Console.WriteLine(curso1.Nombre + ", " + curso1.UniqueId);
-            //Console.WriteLine($"{curso2.Nombre}, {curso2.UniqueId}");
-            //Console.WriteLine(curso3);
-
-            // IMPRIMIR ARREGLOS
-            //Console.WriteLine(arregloCursos[0].Nombre);
-            //Console.WriteLine("Presione ENTER para continuar");
-            //Console.ReadLine(); // Espera a que presione enter
-            //Console.WriteLine(arregloCursos[5].Nombre); // Truena porque no existe ese elemento
-
-            //ImprimirCursosWhile(arregloCursos);
-            //Console.WriteLine("==================");
-            //ImprimirCursosDoWhile(arregloCursos);
-            //Console.WriteLine("==================");
-            //ImprimirCursosFor(arregloCursos);
-            //Console.WriteLine("==================");
-            //ImprimirCursosForEach(arregloCursos);
-
-            // Fallas
-            //escuela.Cursos = null;
-            //escuela.Cursos = new Curso[0];
-            //escuela = null;
-            ImprimirCursosEscuela(escuela);
-
         }
 
         private static void ImprimirCursosEscuela(Escuela escuela)
