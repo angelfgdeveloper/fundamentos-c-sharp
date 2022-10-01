@@ -1,16 +1,7 @@
 ﻿namespace CoreEscuela.Entidades
 {
-    public class Escuela
+    public class Escuela: ObjetoEscuelaBase
     {
-        public string UniqueId { get; private set; } = Guid.NewGuid().ToString();
-
-        private string nombre;
-        public string Nombre // Se asigna a la variable nombre
-        {
-            get { return "Copia => " + nombre; }
-            set { nombre = value.ToUpper(); } // Forzar a mayúscula
-        }
-
         public int AnnioDeCreacion { get; set; } // Hace el mismo efecto que el primero
 
         public string Pais { get; set; }

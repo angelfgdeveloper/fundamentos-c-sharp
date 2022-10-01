@@ -2,7 +2,12 @@
 
 namespace CoreEscuela.App
 {
-    public class EscuelaEngine
+
+    // No puede heredad por que es una clase sellada
+    //public class dummy: EscuelaEngine { //code.. }
+
+    // sealed => clase sellada, puedo crear instancia de la clase pero no puedo heredarla
+    public sealed class EscuelaEngine
     {
         public Escuela Escuela { get; set; }
 
@@ -40,7 +45,7 @@ namespace CoreEscuela.App
 
                         for (int i = 0; i < 5; i++)
                         {
-                            Evaluaciones evaluaciones = new Evaluaciones()
+                            Evaluacion evaluaciones = new Evaluacion()
                             {
                                 Asignatura = asignatura,
                                 Nombre = $"{asignatura.Nombre} Ev#{i + 1}",

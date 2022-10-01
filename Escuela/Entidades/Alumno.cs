@@ -2,14 +2,10 @@
 
 namespace CoreEscuela.Entidades
 {
-    public class Alumno
+    // Hereda
+    public class Alumno: ObjetoEscuelaBase
     {
-        public string UniqueId { get; private set; }
-        public string Nombre { get; set; }
+        public List<Evaluacion> Evaluaciones { get; set; } = new List<Evaluacion>();
 
-        public List<Evaluaciones> Evaluaciones { get; set; } = new List<Evaluaciones>();
-
-        // Contructor corto =>
-        public Alumno() => UniqueId = Guid.NewGuid().ToString(); // Genera un string aleatorio para el ID
     }
 }
