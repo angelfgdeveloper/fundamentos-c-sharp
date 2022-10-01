@@ -1,5 +1,4 @@
 ﻿using CoreEscuela.Entidades;
-using System.Linq;
 
 namespace CoreEscuela.App
 {
@@ -31,7 +30,29 @@ namespace CoreEscuela.App
 
         private void CargarEvaluaciones()
         {
-            
+            foreach (Curso curso in Escuela.Cursos)
+            {
+                foreach (Asignatura asignatura in curso.Asignaturas)
+                {
+                    foreach (Alumno alumno in curso.Alumnos)
+                    {
+                        var rnd = new Random(Environment.TickCount); // TickCount => número en milliseconds cuando inicia la app
+
+                        for (int i = 0; i < 5; i++)
+                        {
+                            Evaluaciones evaluaciones = new Evaluaciones()
+                            {
+                                Asignatura = asignatura,
+                                Nombre = $"{asignatura.Nombre} Ev#{i + 1}",
+                                Nota = (double)(5 * rnd.NextDouble()), // número aleatorio doble entre 0 y 5 (casteo a double)
+                                Alumno = alumno
+                            };
+
+                            alumno.Evaluaciones.Add(evaluaciones);
+                        }
+                    }
+                }
+            }
         }
 
         // #2
