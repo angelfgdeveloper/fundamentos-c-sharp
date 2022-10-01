@@ -1,7 +1,9 @@
 ﻿namespace CoreEscuela.Entidades
 {
-    class Escuela
+    public class Escuela
     {
+        public string UniqueId { get; private set; } = Guid.NewGuid().ToString();
+
         private string nombre;
         public string Nombre // Se asigna a la variable nombre
         {
