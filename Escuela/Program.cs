@@ -67,8 +67,20 @@ namespace CoreEscuela
 
             escuela.Cursos.RemoveAll(miAlgoritmo); // Elimina todo cuando retorne algo
 
+            // #1 delegado
+            //escuela.Cursos.RemoveAll(delegate(Curso cur) { // Crear delegado para hacer la eliminacion de un curso
+            //    return cur.Nombre == "Curso de GitLab Avanzado";
+            //});
+
+            /// <summary>Comentar</summary>
+            /// Para usar etiquetas y tecnico
+            ///
+            // #2 delegado con lambda
+            escuela.Cursos.RemoveAll((Curso cur) => cur.Nombre == "Curso de GitLab Avanzado");
+
             WriteLine("====================");
             ImprimirCursosEscuela(escuela);
+
 
             //Console.WriteLine(escuela);
             Console.WriteLine("====================");
@@ -76,20 +88,6 @@ namespace CoreEscuela
             //Console.WriteLine(curso1.Nombre + ", " + curso1.UniqueId);
             //Console.WriteLine($"{curso2.Nombre}, {curso2.UniqueId}");
             //Console.WriteLine(curso3);
-
-            // IMPRIMIR ARREGLOS
-            //Console.WriteLine(arregloCursos[0].Nombre);
-            //Console.WriteLine("Presione ENTER para continuar");
-            //Console.ReadLine(); // Espera a que presione enter
-            //Console.WriteLine(arregloCursos[5].Nombre); // Truena porque no existe ese elemento
-
-            //ImprimirCursosWhile(arregloCursos);
-            //Console.WriteLine("==================");
-            //ImprimirCursosDoWhile(arregloCursos);
-            //Console.WriteLine("==================");
-            //ImprimirCursosFor(arregloCursos);
-            //Console.WriteLine("==================");
-            //ImprimirCursosForEach(arregloCursos);
 
             // Fallas
             //escuela.Cursos = null;
@@ -197,6 +195,21 @@ namespace CoreEscuela
             //    new Curso() { Nombre = "Curso Avanzado C#" }
             //};
             //escuela.Cursos = arregloCursos; // asignarlo al metodo
+
+            // IMPRIMIR ARREGLOS
+            //Console.WriteLine(arregloCursos[0].Nombre);
+            //Console.WriteLine("Presione ENTER para continuar");
+            //Console.ReadLine(); // Espera a que presione enter
+            //Console.WriteLine(arregloCursos[5].Nombre); // Truena porque no existe ese elemento
+
+            //ImprimirCursosWhile(arregloCursos);
+            //Console.WriteLine("==================");
+            //ImprimirCursosDoWhile(arregloCursos);
+            //Console.WriteLine("==================");
+            //ImprimirCursosFor(arregloCursos);
+            //Console.WriteLine("==================");
+            //ImprimirCursosForEach(arregloCursos);
+
         }
 
         private static void ImprimirCursosEscuela(Escuela escuela)
