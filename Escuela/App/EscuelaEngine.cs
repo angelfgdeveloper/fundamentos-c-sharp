@@ -33,6 +33,26 @@ namespace CoreEscuela.App
             CargarEvaluaciones();
         }
 
+        public List<ObjetoEscuelaBase> GetObjetoEscuela()
+        {
+            List<ObjetoEscuelaBase> listaObj = new List<ObjetoEscuelaBase>();
+            listaObj.Add(Escuela);
+            listaObj.AddRange(Escuela.Cursos);
+
+            foreach (Curso curso in Escuela.Cursos)
+            {
+                listaObj.AddRange(curso.Asignaturas);
+                listaObj.AddRange(curso.Alumnos);
+
+                foreach (Alumno alumno in curso.Alumnos)
+                {
+                    listaObj.AddRange(alumno.Evaluaciones);
+                }
+            }
+
+            return listaObj;
+        }
+
         private void CargarEvaluaciones()
         {
             foreach (Curso curso in Escuela.Cursos)
