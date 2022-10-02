@@ -53,6 +53,10 @@ namespace CoreEscuela.App
             return listaObj;
         }
 
+        /// <summary>
+        /// Se agrupa los métodos usando #region & #endregion entre cada bloque de métodos
+        /// </summary>
+        #region Métodos de Carga
         private void CargarEvaluaciones()
         {
             foreach (Curso curso in Escuela.Cursos)
@@ -133,5 +137,7 @@ namespace CoreEscuela.App
                 curso.Alumnos = generarAlumnosAlAzar(cantidadRandom);
             }
         }
+
+        #endregion
     }
 }

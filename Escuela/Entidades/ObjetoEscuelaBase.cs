@@ -1,7 +1,7 @@
 ﻿namespace CoreEscuela.Entidades
 {
     // abstract ayuda a heredar de ella, pero no hacer objetos con esta base
-    public /*abstract*/ class ObjetoEscuelaBase
+    public abstract class ObjetoEscuelaBase
     {
         public string UniqueId { get; private set; }
         public string Nombre { get; set; }

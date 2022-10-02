@@ -20,6 +20,17 @@ namespace CoreEscuela
             //polimorfismo();
 
             List<ObjetoEscuelaBase> listaObjetos = engine.GetObjetoEscuela();
+            //engine.Escuela.LimpiarLugar();
+
+            // consultar { de cada obj de la listaObjetos, deonde el ob sea de tipo ILugar seleccioname todo el obj de ILugar}
+            // Pueden haber errores silenciosos
+            var listaILugar = from obj in listaObjetos
+                              where obj is ILugar
+                              select (ILugar) obj;
+
+            var listaAlumno = from obj in listaObjetos // Trae todo lo de Alumno
+                              where obj is Alumno
+                              select (Alumno) obj;
 
         }
 
@@ -43,11 +54,11 @@ namespace CoreEscuela
             WriteLine($"UniqueId: {ob.UniqueId}");
             WriteLine($"Alumno tipo: {ob.GetType()}");
 
-            var objDummy = new ObjetoEscuelaBase() { Nombre = "Frank UnderWood" };
-            Printer.WriteTitle("ObjetoEscuelaBase");
-            WriteLine($"Alumno: {objDummy.Nombre}");
-            WriteLine($"UniqueId: {objDummy.UniqueId}");
-            WriteLine($"Alumno tipo: {objDummy.GetType()}");
+            //var objDummy = new ObjetoEscuelaBase() { Nombre = "Frank UnderWood" };
+            //Printer.WriteTitle("ObjetoEscuelaBase");
+            //WriteLine($"Alumno: {objDummy.Nombre}");
+            //WriteLine($"UniqueId: {objDummy.UniqueId}");
+            //WriteLine($"Alumno tipo: {objDummy.GetType()}");
 
             // No se puede a la inversa
             //alumnoTest = (Alumno) objDummy;

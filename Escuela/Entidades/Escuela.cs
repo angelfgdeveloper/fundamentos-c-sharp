@@ -1,6 +1,11 @@
-﻿namespace CoreEscuela.Entidades
+﻿using CoreEscuela.Util;
+
+namespace CoreEscuela.Entidades
 {
-    public class Escuela: ObjetoEscuelaBase
+    /// <summary>
+    /// No podemos agregar otra clase que herede pero si una interfaz
+    /// </summary>
+    public class Escuela: ObjetoEscuelaBase, ILugar
     {
         public int AnnioDeCreacion { get; set; } // Hace el mismo efecto que el primero
 
@@ -13,6 +18,7 @@
 
         //public Curso[] Cursos { get; set; }
         public List<Curso> Cursos { get; set; } = new List<Curso>();
+        public string Direccion { get; set; } // Propiedad de Interfaz
 
         // #1 constructor normal
         //public Escuela(string nombreEntrada, int annio)
@@ -47,5 +53,17 @@
             return $"Nombre: \"{Nombre}\", Tipo: \"{TipoEscuela}\", {System.Environment.NewLine}País: \"{Pais}\", Ciudad: \"{Ciudad}\"";
         }
 
+        public void LimpiarLugar() // Método de Interfaz
+        {
+            Printer.DrawLine();
+            Console.WriteLine("Limpiando Escuela....");
+
+            foreach (Curso curso in Cursos)
+            {
+                curso.LimpiarLugar();
+            }
+
+            Printer.WriteTitle($"Escuela {Nombre} Limpia");
+        }
     }
 }
