@@ -18,20 +18,85 @@ namespace CoreEscuela
 
             //var obj = new ObjetoEscuelaBase(); // No se debe entrar a la base
             //polimorfismo();
+            //parametrosSalida(engine);
+            diccionarios(engine);
+            
 
-            List<ObjetoEscuelaBase> listaObjetos = engine.GetObjetoEscuela();
+
             //engine.Escuela.LimpiarLugar();
 
             // consultar { de cada obj de la listaObjetos, deonde el ob sea de tipo ILugar seleccioname todo el obj de ILugar}
             // Pueden haber errores silenciosos
-            var listaILugar = from obj in listaObjetos
-                              where obj is ILugar
-                              select (ILugar) obj;
+            //var listaILugar = from obj in listaObjetos
+            //                  where obj is ILugar
+            //                  select (ILugar) obj;
 
-            var listaAlumno = from obj in listaObjetos // Trae todo lo de Alumno
-                              where obj is Alumno
-                              select (Alumno) obj;
+            //var listaAlumno = from obj in listaObjetos // Trae todo lo de Alumno
+            //                  where obj is Alumno
+            //                  select (Alumno) obj;
 
+        }
+
+        private static void diccionarios(EscuelaEngine engine)
+        {
+            Dictionary<int, string> diccionario = new Dictionary<int, string>();
+            diccionario.Add(10, "Pistacho");
+            diccionario.Add(223, "Rompopote");
+
+            // Recorrido de un diccionario
+            foreach (KeyValuePair<int, string> keyValPair in diccionario)
+            {
+                WriteLine($"Key: {keyValPair.Key}, Value: {keyValPair.Value}");
+            }
+
+            Printer.WriteTitle("Acceso a Diccionario");
+            diccionario[0] = "Nuezon"; //Agregando un nuevo elemento
+            WriteLine(diccionario[223]); // salida: Rompopote
+
+
+            Printer.WriteTitle("Otro Diccionario");
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic["uno"] = "El número uno mejoro a un 1%";
+            WriteLine(dic["uno"]); // salida: El número uno
+
+            dic.Add("dos", "El número dos mejoro a un 2%");
+            WriteLine(dic["dos"]);
+
+
+            var dicTmp = engine.GetDiccionarioObjetos();
+
+        }
+
+        private static void parametrosSalida(EscuelaEngine engine)
+        {
+            //List<ObjetoEscuelaBase> listaObjetos = engine.GetObjetoEscuela(
+            //    traeEvaluaciones: false,
+            //    false, false, false
+            //);
+
+            // Se convirtio en una tupla
+            //var listaObjetos = engine.GetObjetoEscuela(
+            //    traeEvaluaciones: true,
+            //    false, false, false
+            //);
+
+            // 1# Parametros de salida
+            //int dummy = 0; // Para omitir
+            //var listaObjetos = engine.GetObjetoEscuela(
+            //   out int conteoEvaluaciones, out dummy, out dummy, out dummy
+            //);
+
+            // 2# Parametros de salida
+            var listaObjetos = engine.GetObjetoEscuela(
+                out int conteoEvaluaciones,
+                out int conteoAlumnos,
+                out int conteoAsignaturas,
+                out int conteoCursos
+            );
+
+            // No debe poder hacer la adcion, con esto lo evitamos en los metodos IReadOnlyList
+            //listaObjetos.Add(new Curso { Nombre = "Curso loco" });
+            // IEnumerable => es para regresar un objeto generico
         }
 
         private static void polimorfismo()

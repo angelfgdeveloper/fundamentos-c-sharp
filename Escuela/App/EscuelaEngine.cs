@@ -33,25 +33,138 @@ namespace CoreEscuela.App
             CargarEvaluaciones();
         }
 
-        public List<ObjetoEscuelaBase> GetObjetoEscuela()
+        public Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelaBase>> GetDiccionarioObjetos()
         {
+            var diccionario = new Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelaBase>>();
+
+            //IEnumerable<ObjetoEscuelaBase> o = new List<ObjetoEscuelaBase>();
+            //List<Curso> c = new List<Curso>();
+            //o = (List<ObjetoEscuelaBase>) c; //No lo permite, igualar un objeto por su herencia
+            //o = (List<ObjetoEscuelaBase>) c.Cast<ObjetoEscuelaBase>();
+
+            diccionario.Add(LlaveDiccionario.Escuela, new[] { Escuela }); // Arreglo de una sola posicion
+            //diccionario.Add("Cursos", Escuela.Cursos[0]);
+            //diccionario.Add("Cursos", Escuela.Cursos[1]); // Excepcion por la misma llave
+
+            diccionario.Add(LlaveDiccionario.Curso, Escuela.Cursos.Cast<ObjetoEscuelaBase>()); //Conversión
+
+
+            return diccionario;
+        }
+
+        /// <summary>
+        /// Uso de parametros de salida y opcionales
+        /// </summary>
+        /// <param name="traeEvaluaciones"></param>
+        /// <param name="traeAlumnos"></param>
+        /// <param name="traeAsignaturas"></param>
+        /// <param name="traeCursos"></param>
+        /// <returns></returns>
+        #region Sobrecargas y lista de solo lectura
+        // #1 Sobrecarga
+        public IReadOnlyList<ObjetoEscuelaBase> GetObjetoEscuela(
+           bool traeEvaluaciones = true,
+           bool traeAlumnos = true,
+           bool traeAsignaturas = true,
+           bool traeCursos = true
+        )
+        {
+            return GetObjetoEscuela(out int dummy, out dummy, out dummy, out dummy);
+        }
+
+        // #2 Sobrecarga
+        public IReadOnlyList<ObjetoEscuelaBase> GetObjetoEscuela(
+            out int conteoEvaluaciones,
+            bool traeEvaluaciones = true,
+            bool traeAlumnos = true,
+            bool traeAsignaturas = true,
+            bool traeCursos = true
+        )
+        {
+            return GetObjetoEscuela(out conteoEvaluaciones, out int dummy, out dummy, out dummy);
+        }
+
+        // #3 Sobrecarga
+        public IReadOnlyList<ObjetoEscuelaBase> GetObjetoEscuela(
+            out int conteoEvaluaciones,
+            out int conteoAlumnos,
+            bool traeEvaluaciones = true,
+            bool traeAlumnos = true,
+            bool traeAsignaturas = true,
+            bool traeCursos = true
+        )
+        {
+            return GetObjetoEscuela(out conteoEvaluaciones, out conteoAlumnos, out int dummy, out dummy);
+        }
+
+        // #3 Sobrecarga
+        public IReadOnlyList<ObjetoEscuelaBase> GetObjetoEscuela(
+            out int conteoEvaluaciones,
+            out int conteoAlumnos,
+            out int conteoAsignaturas,
+            bool traeEvaluaciones = true,
+            bool traeAlumnos = true,
+            bool traeAsignaturas = true,
+            bool traeCursos = true
+        )
+        {
+            return GetObjetoEscuela(out conteoEvaluaciones, out conteoAlumnos, out conteoAsignaturas, out int dummy);
+        }
+
+        // #1 Retorna una lista y un entero (List<ObjetoEscuelaBase>, int)
+        // #2 Retorna parametros de salida
+        // #3 IReadOnlyList lista de solo lectura
+        public /*(List<ObjetoEscuelaBase>, int)*/ IReadOnlyList<ObjetoEscuelaBase> GetObjetoEscuela(
+            // Parametros de salida
+            out int conteoEvaluaciones,
+            out int conteoAlumnos,
+            out int conteoAsignaturas,
+            out int conteoCursos,
+
+            bool traeEvaluaciones = true,
+            bool traeAlumnos = true,
+            bool traeAsignaturas = true,
+            bool traeCursos = true
+        )
+        {
+            //int conteoEvaluaciones = 0;
+            conteoEvaluaciones = 0;
+            conteoAlumnos = 0;
+            conteoAsignaturas = 0;
+            conteoCursos = 0;
+
             List<ObjetoEscuelaBase> listaObj = new List<ObjetoEscuelaBase>();
             listaObj.Add(Escuela);
-            listaObj.AddRange(Escuela.Cursos);
 
+            if (traeCursos)
+                listaObj.AddRange(Escuela.Cursos);
+
+            conteoCursos += Escuela.Cursos.Count; // contador
             foreach (Curso curso in Escuela.Cursos)
             {
-                listaObj.AddRange(curso.Asignaturas);
-                listaObj.AddRange(curso.Alumnos);
+                conteoAsignaturas += curso.Asignaturas.Count; // contador
+                conteoAlumnos += curso.Alumnos.Count; // contador
 
-                foreach (Alumno alumno in curso.Alumnos)
+                if (traeAsignaturas)
+                    listaObj.AddRange(curso.Asignaturas);
+
+                if (traeAlumnos)
+                    listaObj.AddRange(curso.Alumnos);
+
+                if (traeEvaluaciones)
                 {
-                    listaObj.AddRange(alumno.Evaluaciones);
+                    foreach (Alumno alumno in curso.Alumnos)
+                    {
+                        listaObj.AddRange(alumno.Evaluaciones);
+                        conteoEvaluaciones += alumno.Evaluaciones.Count; // sumar la cantidad de cada uno de los alumnos
+                    }
                 }
             }
 
+            //return (listaObj, conteoEvaluaciones);
             return listaObj;
         }
+        #endregion
 
         /// <summary>
         /// Se agrupa los métodos usando #region & #endregion entre cada bloque de métodos
