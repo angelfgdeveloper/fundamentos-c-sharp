@@ -9,20 +9,24 @@ namespace CoreEscuela
     {
         static void Main(string[] args)
         {
+            // Se dispara cada vez que termine (Delegados)
+            // Paso por referencia al metodo, y sobrecarga de evento
+            AppDomain.CurrentDomain.ProcessExit += AccionDelEvento;
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => Printer.Beep(2000, 1000, 1);
+            AppDomain.CurrentDomain.ProcessExit -= AccionDelEvento; // Remover el evento
+
             EscuelaEngine engine = new EscuelaEngine();
             engine.Inicializar();
 
             Printer.WriteTitle("BIENVENIDOS A LA ESCUELA");
             //Printer.Beep(10000, count: 10);
-            ImprimirCursosEscuela(engine.Escuela);
+            //ImprimirCursosEscuela(engine.Escuela);
 
             //var obj = new ObjetoEscuelaBase(); // No se debe entrar a la base
             //polimorfismo();
             //parametrosSalida(engine);
             diccionarios(engine);
             
-
-
             //engine.Escuela.LimpiarLugar();
 
             // consultar { de cada obj de la listaObjetos, deonde el ob sea de tipo ILugar seleccioname todo el obj de ILugar}
@@ -35,6 +39,13 @@ namespace CoreEscuela
             //                  where obj is Alumno
             //                  select (Alumno) obj;
 
+        }
+
+        private static void AccionDelEvento(object? sender, EventArgs e)
+        {
+            Printer.WriteTitle("SALIENDO");
+            Printer.Beep(3000, 1000, 3);
+            Printer.WriteTitle("SALIÓ");
         }
 
         private static void diccionarios(EscuelaEngine engine)
@@ -53,6 +64,8 @@ namespace CoreEscuela
             diccionario[0] = "Nuezon"; //Agregando un nuevo elemento
             WriteLine(diccionario[223]); // salida: Rompopote
 
+            // Ejemplo para reventar app
+            //throw new Exception();
 
             Printer.WriteTitle("Otro Diccionario");
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -64,6 +77,7 @@ namespace CoreEscuela
 
 
             var dicTmp = engine.GetDiccionarioObjetos();
+            engine.ImprimirDiccionario(dicTmp, !false);
 
         }
 

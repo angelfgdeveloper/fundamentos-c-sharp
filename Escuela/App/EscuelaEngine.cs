@@ -1,4 +1,5 @@
 ﻿using CoreEscuela.Entidades;
+using CoreEscuela.Util;
 
 namespace CoreEscuela.App
 {
@@ -33,6 +34,67 @@ namespace CoreEscuela.App
             CargarEvaluaciones();
         }
 
+        public void ImprimirDiccionario(Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelaBase>> dic, bool imprEval = false)
+        {
+            foreach (var obj in dic)
+            {
+                Printer.WriteTitle(obj.Key.ToString());
+                //Console.WriteLine(obj);
+
+                foreach (var val in obj.Value)
+                {
+                    // #1
+                    //if (val is Evaluacion)
+                    //{
+                    //    if (imprEval)
+                    //    {
+                    //        Console.WriteLine(val); // Print value
+                    //    }
+                    //}
+                    //else if (val is Escuela)
+                    //{
+                    //    Console.WriteLine($"Escuela: {val}");
+                    //}
+                    //else if (val is Alumno)
+                    //{
+                    //    Console.WriteLine($"Alumno: {val}");
+                    //}
+                    //else
+                    //{
+                    //    Console.WriteLine(val); // Print value
+                    //}
+
+                    // #2
+                    switch (obj.Key)
+                    {
+                        case LlaveDiccionario.Evaluacion:
+                            if (imprEval)
+                                Console.WriteLine(val); // Print value
+                            break;
+                        case LlaveDiccionario.Escuela:
+                            Console.WriteLine($"Escuela: {val}");
+                            break;
+                        case LlaveDiccionario.Alumno:
+                            Console.WriteLine($"Alumno: {val}");
+                            break;
+                        case LlaveDiccionario.Curso:
+                            //Console.WriteLine($"Curso: {val.Nombre}, Cantidad Alumnos: {((Curso)val).Alumnos.Count}");
+                            var cursoTmp = val as Curso;
+                            if (cursoTmp != null)
+                            {
+                                //int count = ((Curso)val).Alumnos.Count;
+                                int count = cursoTmp.Alumnos.Count;
+                                Console.WriteLine($"Curso: {val.Nombre}, Cantidad Alumnos: {count}");
+                            }
+                            break;
+                        default:
+                            Console.WriteLine(val); // Print value
+                            break;
+                    }
+                }
+            }
+        }
+
         public Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelaBase>> GetDiccionarioObjetos()
         {
             var diccionario = new Dictionary<LlaveDiccionario, IEnumerable<ObjetoEscuelaBase>>();
@@ -47,7 +109,30 @@ namespace CoreEscuela.App
             //diccionario.Add("Cursos", Escuela.Cursos[1]); // Excepcion por la misma llave
 
             diccionario.Add(LlaveDiccionario.Curso, Escuela.Cursos.Cast<ObjetoEscuelaBase>()); //Conversión
+            //diccionario[LlaveDiccionario.Curso] = Escuela.Cursos.Cast<ObjetoEscuelaBase>(); //Conversión
 
+            var listaAsignaturaTmp = new List<Asignatura>();
+            var listaAlumnosTmp = new List<Alumno>();
+            var listaEvaluacionesTmp = new List<Evaluacion>();
+            foreach (Curso curso in Escuela.Cursos)
+            {
+                //diccionario.Add(LlaveDiccionario.Asignatura, curso.Asignaturas.Cast<ObjetoEscuelaBase>()); //Conversión
+                //diccionario.Add(LlaveDiccionario.Alumno, curso.Alumnos.Cast<ObjetoEscuelaBase>()); //Conversión
+
+                listaAsignaturaTmp.AddRange(curso.Asignaturas);
+                listaAlumnosTmp.AddRange(curso.Alumnos);
+
+                foreach (Alumno alumno in curso.Alumnos)
+                {
+                    //diccionario.Add(LlaveDiccionario.Evaluacion, alumno.Evaluaciones.Cast<ObjetoEscuelaBase>()); //Conversión
+                    listaEvaluacionesTmp.AddRange(alumno.Evaluaciones);
+                }
+
+            }
+
+            diccionario.Add(LlaveDiccionario.Asignatura, listaAsignaturaTmp.Cast<ObjetoEscuelaBase>()); //Conversión
+            diccionario.Add(LlaveDiccionario.Alumno,listaAlumnosTmp.Cast<ObjetoEscuelaBase>()); //Conversión
+            diccionario.Add(LlaveDiccionario.Evaluacion, listaEvaluacionesTmp.Cast<ObjetoEscuelaBase>()); //Conversión
 
             return diccionario;
         }
@@ -172,21 +257,25 @@ namespace CoreEscuela.App
         #region Métodos de Carga
         private void CargarEvaluaciones()
         {
+            //var rnd = new Random(Environment.TickCount); // TickCount => número en milliseconds cuando inicia la app
+            var rnd = new Random(); // Numeros random
+            
             foreach (Curso curso in Escuela.Cursos)
             {
                 foreach (Asignatura asignatura in curso.Asignaturas)
                 {
                     foreach (Alumno alumno in curso.Alumnos)
                     {
-                        var rnd = new Random(Environment.TickCount); // TickCount => número en milliseconds cuando inicia la app
-
                         for (int i = 0; i < 5; i++)
                         {
                             Evaluacion evaluaciones = new Evaluacion()
                             {
                                 Asignatura = asignatura,
                                 Nombre = $"{asignatura.Nombre} Ev#{i + 1}",
-                                Nota = (double)(5 * rnd.NextDouble()), // número aleatorio doble entre 0 y 5 (casteo a double)
+                                Nota = Math.Round(5 * rnd.NextDouble(), 2), // número aleatorio doble entre 0 y 5 (casteo a double)
+                                //Nota = (float)Math.Round(5 * rnd.NextDouble(), 2)
+                                //Nota = Math.Round((float)(5 * rnd.NextDouble()), 2)
+                                //Nota = Math.Round(5 * (float)rnd.NextDouble(), 2)
                                 Alumno = alumno
                             };
 
