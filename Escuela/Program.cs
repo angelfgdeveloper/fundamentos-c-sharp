@@ -11,9 +11,9 @@ namespace CoreEscuela
         {
             // Se dispara cada vez que termine (Delegados)
             // Paso por referencia al metodo, y sobrecarga de evento
-            AppDomain.CurrentDomain.ProcessExit += AccionDelEvento;
-            AppDomain.CurrentDomain.ProcessExit += (s, e) => Printer.Beep(2000, 1000, 1);
-            AppDomain.CurrentDomain.ProcessExit -= AccionDelEvento; // Remover el evento
+            //AppDomain.CurrentDomain.ProcessExit += AccionDelEvento;
+            //AppDomain.CurrentDomain.ProcessExit += (s, e) => Printer.Beep(2000, 1000, 1);
+            //AppDomain.CurrentDomain.ProcessExit -= AccionDelEvento; // Remover el evento
 
             EscuelaEngine engine = new EscuelaEngine();
             engine.Inicializar();
@@ -25,8 +25,24 @@ namespace CoreEscuela
             //var obj = new ObjetoEscuelaBase(); // No se debe entrar a la base
             //polimorfismo();
             //parametrosSalida(engine);
-            diccionarios(engine);
-            
+            //diccionarios(engine);
+
+            // CONSULTAS
+            Reporteador reporteador = new Reporteador(engine.GetDiccionarioObjetos());
+            var evalList = reporteador.GetListaEvaluaciones();
+            var listaAsign = reporteador.GetListaAsignaturas();
+            var listaEvalXAsig = reporteador.GetDicEvaluacionXAsignatura();
+            var listaPromXAsig = reporteador.GetPromedioAlumnosPorAsignatura();
+
+            //foreach (var item in listaPromXAsig)
+            //{
+            //    foreach (var alumn in item.Value)
+            //    {
+            //        var tmp = alumn as Alumno;
+
+            //    }
+            //}
+
             //engine.Escuela.LimpiarLugar();
 
             // consultar { de cada obj de la listaObjetos, deonde el ob sea de tipo ILugar seleccioname todo el obj de ILugar}
