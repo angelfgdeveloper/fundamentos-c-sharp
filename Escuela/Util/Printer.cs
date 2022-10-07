@@ -18,6 +18,11 @@ namespace CoreEscuela.Util
             DrawLine(tamanio);
         }
 
+        public static void PresioneENTER()
+        {
+            WriteLine("Presione ENTER para continuar");
+        }
+
         public static void Beep(int hz = 2000, int time = 500, int count = 1)
         {
             while (count-- > 0)

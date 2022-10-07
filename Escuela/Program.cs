@@ -43,6 +43,69 @@ namespace CoreEscuela
             //    }
             //}
 
+            // CONSOLA
+            Printer.WriteTitle("Captura de una Evaluación por Consola");
+            var newEval = new Evaluacion();
+            string nombre, notaString;
+            double nota;
+
+            WriteLine("Ingrese el nombre de la evaluación");
+            Printer.PresioneENTER();
+            nombre = ReadLine();
+
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                //throw new ArgumentException("El valor del nombre no puede ser vacio");
+                Printer.WriteTitle("El valor del nombre no puede ser vacio");
+                WriteLine("Saliendo del programa");
+            }
+            else
+            {
+                newEval.Nombre = nombre.Trim().ToLower();
+                WriteLine("El nombre de la evaluación ha sido ingresado correctamente");
+            }
+
+            WriteLine("Ingrese la nota de la evaluación");
+            Printer.PresioneENTER();
+            notaString = ReadLine();
+
+            if (string.IsNullOrWhiteSpace(notaString))
+            {
+                //throw new ArgumentException("El valor de la nota no puede ser vacio");
+                Printer.WriteTitle("El valor de la nota no puede ser vacio");
+                WriteLine("Saliendo del programa");
+            }
+            else
+            {
+                try
+                {
+                    newEval.Nota = double.Parse(notaString);
+                    if (newEval.Nota < 0 || newEval.Nota > 5)
+                    {
+                        throw new ArgumentOutOfRangeException("La nota debe de estar entre 0 y 5.0");
+                    }
+
+                    WriteLine("La nota de la evaluación ha sido ingresado correctamente");
+                    //return; //Terminar el programa - se ejecuta el finally, antes de que salga del programa
+                }
+                // Las Excepcions van en cascada
+                catch(ArgumentOutOfRangeException arge) // Tipo de excepcion de argumentos incorrectos
+                {
+                    Printer.WriteTitle(arge.Message);
+                    WriteLine("Saliendo del programa");
+                }
+                catch (Exception) // Excepcion general
+                {
+                    Printer.WriteTitle("El valor de la nota no es un número válido");
+                    WriteLine("Saliendo del programa");
+                }
+                finally // Funciono o no, siempre se ejecuta en un try/catch
+                {
+                    Printer.WriteTitle("FINALLY");
+                    // Beep Beep!
+                }
+            }
+
             //engine.Escuela.LimpiarLugar();
 
             // consultar { de cada obj de la listaObjetos, deonde el ob sea de tipo ILugar seleccioname todo el obj de ILugar}
